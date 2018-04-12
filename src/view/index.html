@@ -1,13 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>主页</title>
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <link rel="stylesheet" type="text/css" href="assets/sui/css/sm.min.css">
+  <link rel="stylesheet" type="text/css" href="assets/swiper/css/swiper.min.css">
   <link rel="stylesheet" type="text/css" href="css/index.css">
 </head>
 <body>
-  <div>主页面</div>
-  <div>ceshi</div>
+  <div class="page-group">
+    <div class="page page-current">
+      <div class="bar bar-header-secondary mysearch">
+        <div class="searchbar">
+          <a class="searchbar-cancel">取消</a>
+          <div class="search-input">
+            <label class="icon icon-search" for="search"></label>
+            <input type="search" id='search' placeholder='输入关键字...'/>
+          </div>
+        </div>
+      </div>
+      <div class="content" id="content">
+        <div class="swiper-container">
+          <div class="swiper-wrapper">
+              <div class="swiper-slide">
+                <img src="https://image3.suning.cn/uimg/cms/img/151738383270780554.jpg?from=mobile">
+              </div>
+              <div class="swiper-slide">
+                <img src="https://image4.suning.cn/uimg/cms/img/151937554134486711.jpg?from=mobile">
+              </div>
+              <div class="swiper-slide">
+                <img src="https://image2.suning.cn/uimg/aps/material/151939080657956233.jpg|/uimg/aps/material/151936970303149620.jpg">
+              </div>
+          </div>
+          <!-- 如果需要分页器 -->
+          <div class="swiper-pagination"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript" src="assets/axios/axios.min.js"></script>
+  <script type="text/javascript" src="assets/zepto/zepto.min.js"></script>
+  <script type="text/javascript" src="assets/sui/js/sm.min.js"></script>
+  <script type="text/javascript" src="assets/swiper/js/swiper.min.js"></script>
+  <script type="text/javascript" src="js/app.js"></script>
   <script type="text/javascript" src="js/index.js"></script>
 </body>
 </html>
