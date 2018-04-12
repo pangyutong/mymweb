@@ -31,6 +31,25 @@ const revCollector = require('gulp-rev-collector');
 // 对文件进行重命名
 const rename = require('gulp-rename');
 
+// 处理assets
+gulp.task("assets", () => {
+    // 处理 SUI 框架库
+    gulp.src(path.join('src','assets',"sui/**/*"))
+        .pipe(gulp.dest(path.join('dist','assets','sui')))
+    // 构建zepto.js
+    gulp.src(path.join('src','assets',"zepto/*"))
+        .pipe(gulp.dest(path.join('dist','assets',"zepto")));
+    // 构建 artTemplate 库
+    gulp.src(path.join('src','assets',"artTemplate","template-web.js"))
+        .pipe(gulp.dest(path.join('dist','assets',"artTemplate")));
+    // 构建 axios 库
+    gulp.src(path.join('src','assets',"axios","**/*"))
+        .pipe(gulp.dest(path.join('dist','assets',"axios")));
+    // 构建 swiper 库
+    gulp.src(path.join('src','assets',"swiper","**/*"))
+        .pipe(gulp.dest(path.join('dist','assets',"swiper")));
+});
+
 // 处理清理操作
 gulp.task('clean',function(){
   return gulp.src(path.join(__dirname,'./dist/*'), {read: false})
@@ -43,11 +62,11 @@ gulp.task('css',function(){
     .pipe(less())
     .pipe(autoprefixer())
     .pipe(cssmin())
-    .pipe(rev())
+    // .pipe(rev())
     .pipe(gulp.dest(path.join(__dirname,'dist','css')))
-    .pipe(rev.manifest())
-    .pipe(rename('css-manifest.json'))
-    .pipe(gulp.dest('./dist/rev'));
+    // .pipe(rev.manifest())
+    // .pipe(rename('css-manifest.json'))
+    // .pipe(gulp.dest('./dist/rev'));
 })
 
 // 处理js
@@ -57,11 +76,11 @@ gulp.task('js',function(){
       presets: ['env']
     }))
     .pipe(uglify())
-    .pipe(rev())
+    // .pipe(rev())
     .pipe(gulp.dest(path.join(__dirname,'dist','js')))
-    .pipe(rev.manifest())
-    .pipe(rename('js-manifest.json'))
-    .pipe(gulp.dest('./dist/rev'));
+    // .pipe(rev.manifest())
+    // .pipe(rename('js-manifest.json'))
+    // .pipe(gulp.dest('./dist/rev'));
 })
 
 // 处理html
@@ -83,10 +102,10 @@ gulp.task('html',function(){
 // gulp.task('build',['css','js','html']);
 gulp.task('build',function(){
   // 保证任务串行
-  runSequence('clean', ['css','js','html'],function(){
-    return gulp.src(['./dist/rev/*.json', './dist/index.html'])
-      .pipe(revCollector())
-      .pipe(gulp.dest('./dist'));
+  runSequence('clean', ['css','js','html','assets'],function(){
+    // return gulp.src(['./dist/rev/*.json', './dist/index.html'])
+    //   .pipe(revCollector())
+    //   .pipe(gulp.dest('./dist'));
   })
 })
 
