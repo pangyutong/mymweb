@@ -3,8 +3,13 @@ $(function() {
   // 实现登录
   // 基于Promise的编码风格：分而治之（把单个的业务封装到独立的方法中，然后通过then串联起来）
   // 表单验证
+  /*
+  着重强调：如果then方法中显示的返回Promise实例对象，那么下一个then的调用者就是该Promise实例对象
+            如果then方法中显示的返回一个普通值，那么下一个then的调用者是默认Promise实例对象，并且下一个then的回调函数函数的参数就是上面返回的那个普通值
+  */
   function checkForm(params){
     return new Promise(function(resolve,reject){
+      // Promise内部必须执行resolve或者reject其中之一
       // 这里进行验证
       let reg = /^\d{11}$/g;
       if(!params.username || !reg.test(params.username)) {
