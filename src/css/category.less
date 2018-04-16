@@ -1,0 +1,97 @@
+.mysearch {
+  top: 0;
+}
+#content {
+  position: absolute;
+  top: 2.2rem;
+}
+.content {
+    width: 100%;
+    background-color: #F4F4F4;
+    box-sizing: border-box;
+    .row {
+        background-color: #fff;
+        border: 1px solid #E2E2E3;
+        border-top: 0;
+        border-bottom: 0;
+        margin: 0;
+        height: 100%;
+        .layout-left {
+            height: 100%;
+            position: relative;
+            float: left;
+            overflow-y: scroll;
+            .layout-con {
+                position: absolute;
+                left: 0;
+                top: 0;
+                .items {
+                    border-left: 3px solid #fff;
+                    padding: 0 2px 0 2px;
+                    border-bottom: 1px solid #E2E2E3;
+                    text-align: center;
+                    height: 50px;
+                    line-height: 50px;
+                    font-size: 0.8rem;
+                    color: #000;
+                    font-family: '宋体';
+                }
+                .cur {
+                    color: #0000FF;
+                }
+            }
+        }
+        .layout-right {
+            position: relative;
+            overflow-y: scroll;
+            height: 100%;
+            .shangpin {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                .theme {
+                    height: 25px;
+                    line-height: 25px;
+                    margin: 5px 0 0 0;
+                    clear: both;
+                    p {
+                        color: #0000FF;
+                        font-size: 0.6rem;
+                        float: left;
+                        width: 25%;
+                        margin: 0;
+                    }
+                    .m-line {
+                        margin-top: 12px;
+                        height: 1px;
+                        background-color: #E2E2E3;
+                        float: left;
+                        width: 75%;
+                    }
+                }
+                .comP {
+                    width: 100%;
+                    .good {
+                        width: 33.33%;
+                        float: left;
+                        p {
+                            font-size: 0.7rem;
+                            text-align: center;
+                            margin-top: 2.5rem;
+                        }
+                        div {
+                            height: 30px;
+                            width: 100%;
+                            img {
+                                width: 80%;
+                                display: block;
+                                margin: 0 10%;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>主页</title>
+  @@include('./common/meta.html') @@include('./common/style.html')
+  <link rel="stylesheet" type="text/css" href="css/category.css">
+</head>
+
+<body>
+  <div class="page-group">
+    <div class="page page-current">
+      <!-- 搜索条 -->
+      @@include('./common/searchbar.html')
+      <!-- 菜单栏 -->
+      @@include('./common/menubar.html', { "category": "active" })
+      <div class="content" id="content">
+        <div class="row">
+          <div class="col-25 layout-left" id="leftMenuInfo"></div>
+          <div class="col-75 layout-right" id="rightCateInfo"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="text/template" id="leftMenuTpl">
+    <div class="layout-con">
+      {{each $data}}
+      <div class="items">{{$value.cat_name}}</div>
+      {{/each}}
+    </div>
+  </script>
+  <script type="text/template" id="rightCateTpl">
+    <div class="shangpin">
+      {{each $data.data}}
+        <div class="goods-cat">
+          <h2 class="theme">
+            <p>{{$value.cat_name}}</p>
+            <s class="m-line"></s>
+          </h2>
+          <div class="comP">
+            {{each $value.children item}}
+            <div class="good" data-cid="{{item.cat_id}}">
+              <div style=""><img src="{{$data.baseUrl + '' +item.cat_icon}}"></div>
+              <p>{{item.cat_name}}</p>
+            </div>
+            {{/each}}
+          </div>
+        </div>
+      {{/each}}
+    </div>
+  </script>
+  @@include('./common/script.html')
+  <script type="text/javascript" src="js/category.js"></script>
+</body>
+
+</html>
