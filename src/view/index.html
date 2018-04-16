@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>主页</title>
+  @@include('./common/meta.html')
+  @@include('./common/style.html')
+  <link rel="stylesheet" type="text/css" href="css/index.css">
+</head>
+
+<body>
+  <div class="page-group">
+    <div class="page page-current">
+      <!-- 搜索条 -->
+      @@include('./common/searchbar.html')
+      <!-- 菜单栏 -->
+      @@include('./common/menubar.html', {
+        "index": "active"
+      })
+      <div class="content" id="content">
+        <div class="swiper-container" id="swiperInfo"></div>
+        <div class="content-padded menu" id="menuInfo"></div>
+        <div id="listInfo"></div>
+      </div>
+    </div>
+  </div>
+  <script type="text/template" id="swiperTpl">
+    <div class="swiper-wrapper">
+      {{each list}}
+        <div class="swiper-slide">
+          <img src="{{$value.image_url}}">
+        </div>
+      {{/each}}
+    </div>
+    <!-- 如果需要分页器 -->
+    <div class="swiper-pagination"></div>
+  </script>
+  <script type="text/template" id="menuTpl">
+    <div class="row">
+      {{each list}}
+        <div class="col-20">
+          <a href="{{$value.href}}">
+            <div>
+              <img src="{{$value.img}}">
+            </div>
+            <div>{{$value.name}}</div>
+          </a>
+        </div>
+        {{if ($index + 1) % 5 == 0}}
+          </div>
+          <div class="row">
+        {{/if}}
+      {{/each}}
+    </div>
+  </script>
+  <script type="text/template" id="listTpl">
+    {{each $data}}
+      <!-- 内容列表模板 -->
+      <div class="content-padded list-title">
+        <img src="{{$value.group_img}}">
+      </div>
+      <div class="content-padded list-item">
+        <div class="row">
+          {{each $value.goods item}}
+            <div class="col-50">
+              <div class="pic">
+                <img src="{{item.goods_big_logo}}">
+              </div>
+              <div class="name">{{item.goods_name}}</div>
+              <div class="price">
+                <span>¥ {{item.goods_price}}</span>
+                <a href="/goods-list.html?cid={{item.cat_id}}" class="button external">找相似</a>
+              </div>
+            </div>
+            {{if ($index + 1) % 2 == 0}}
+              </div>
+              <div class="row">
+            {{/if}}
+          {{/each}}
+        </div>
+      </div>
+    {{/each}}
+  </script>
+  @@include('./common/script.html')
+  <script type="text/javascript" src="js/index.js"></script>
+</body>
+
+</html>
