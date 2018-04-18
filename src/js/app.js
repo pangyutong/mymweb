@@ -53,13 +53,14 @@ axios.interceptors.request.use(function (config) {
     // console.log(config)
     // url地址添加时间戳，防止缓存
     if(config.params){
-        config.params.t = new Date().getTime();
-    }else {
-        config.params={
-            t:new Date().getTime()
-        };
+      // 已经存在get参数
+      config.params.t = new Date().getTime();
+    }else{
+      // 不存在get参数
+      config.params = {
+        t: new Date().getTime()
+      }
     }
-
     return config;
   }, function (error) {
     return Promise.reject(error);
