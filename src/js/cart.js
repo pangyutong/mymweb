@@ -41,23 +41,25 @@ $(function(){
       $('.numbox .numbox-minus').on('click',function(){
         // 仅仅修改当前输入框的数量
         // 修改输入框数量，然后把最新数量传递给处理逻辑（自定义事件）
-        let current = $('#pnum').val();
+        let input = $(this).siblings('input').eq(0);
+        let current = input.val(); 
         if(current > 1) {
           current--;
         }
-        $('#pnum').val(current);
-        // 触发事件
+        input.val(current);
+        // 触发事件,并且携带参数
         $(this).parent('.numbox').trigger('change-cart', current);
       })
       $('.numbox .numbox-plus').on('click',function(){
-        let current = $('#pnum').val();
+        let input = $(this).siblings('input').eq(0);
+        let current = input.val();
         current++;
-        $('#pnum').val(current);
+        input.val(current);
         // 触发事件
         $(this).parent('.numbox').trigger('change-cart', current);
       })
       $('.numbox .numbox-input').on('input',function(){
-        let current = $('#pnum').val();
+        let current = $(this).val();
         // 如果不是数字，需要提示用户重新输入
         if(!/^\d+$/.test(current)){
           $.toast('必须输入数字');
@@ -67,6 +69,10 @@ $(function(){
       })
       resolve();
     })
+  }
+  // 同步购物车数据
+  function syncCart(params){
+    return axios.post('my/cart/sync',params)
   }
   // 更新购物车
   function updateCart(){
@@ -79,31 +85,28 @@ $(function(){
         // 根据当前id更新数据中的商品数量
         currentData[gId].amount = num;
         // 这里只能直接调用，不可以通过then调用
-        syncCart({
-          infos: JSON.stringify(currentData)
-        })
-        .then(function(newCartData){
-          // 更新当前最新购物车数据
-          currentData = newCartData;
-          return currentData;
-        })
-        .then(renderCartInfo)
-        .then(calcMoney)
-        .then(controlProductNum)
-        .then(function(){
-          $.toast('更新成功');
-        })
-        .catch(function(){
-          $.toast('服务器错误');
-        })
+        syncCart({infos: JSON.stringify(currentData)})
+          .then(function(data){
+            // 更新当前最新购物车数据
+            let info = JSON.parse(data.data.cart_info);
+            let goods = [];
+            for(let key in info){
+              goods.push(info[key]);
+            }
+            return goods;
+          })
+          .then(calcMoney)
+          .then(function(){
+            $.toast('更新成功');
+          })
+          .catch(function(e){
+            $.toast('服务器错误');
+          })
       });
       resolve();
     });
   }
-  // 同步购物车数据
-  function syncCart(params){
-    return axios.post('my/cart/sync',params)
-  }
+  
 
   $(document).on("pageInit", function(e, pageId, $page) {
     loadCartData()
