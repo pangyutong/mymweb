@@ -2,22 +2,26 @@ $(function(){
   // 当前购物车数据
   let currentData = null;
   // 加载购物车数据
-  function loadCartData(){
-    return axios.get('my/cart/all');
+  function loadCartData(cartTpl){
+    return axios.get('my/cart/all').then(function(data){
+      let info = data.data.cart_info;
+      return {
+        data: JSON.parse(info),
+        tplId: cartTpl
+      }
+    })
   }
   // 渲染模板
-  function renderCartInfo(data){
+  function renderCartInfo(params){
     return new Promise(function(resolve,reject){
-      let info = data.data.cart_info;
-      info = JSON.parse(info);
       // 初始化购物车数据
-      currentData = info;
+      currentData = params.data;
       // 对后台数据进行二次加工
       let goods = [];
-      for(let key in info){
-        goods.push(info[key]);
+      for(let key in currentData){
+        goods.push(currentData[key]);
       }
-      let html = template('cartTpl',goods);
+      let html = template(params.tplId, goods);
       $('#cartInfo').html(html);
       // 把数据传递到下一步，用于计算总价
       resolve(goods);
@@ -106,17 +110,85 @@ $(function(){
       resolve();
     });
   }
+  // 删除购物车商品
+  function deleteCart(){
+    return new Promise(function(resolve,reject){
+      // 处理删除操作
+      $('#delBtn').on('click',function(){
+        // 获取选中的商品id
+        let ids = [];
+        $('#cartInfo input[type=checkbox]:checked').each(function(index,item){
+          let pId = $(item).attr('data-pId');
+          ids.push(pId)
+        })
+        // 根据选中的id删除当前购物车数据中对应的数据
+        ids.forEach(function(item){
+          delete currentData[item];
+        })
+        // 删除完页面数据之后要同步到后台
+        syncCart({infos: JSON.stringify(currentData)})
+          .then(function(data){
+            // 更新当前最新购物车数据
+            let info = JSON.parse(data.data.cart_info);
+            // 更新本地数据
+            currentData = info;
+            let goods = [];
+            for(let key in info){
+              goods.push(info[key]);
+            }
+            return goods;
+          })
+          .then(calcMoney)
+          .then(function(){
+            // 重新渲染显示模板
+            renderCommon('cartTpl');
+          })
+          .catch(function(e){
+            $.toast(e)
+          })
+      })
+      // 处理编辑操作
+      $('#editBtn').on('click',function(){
+        this.flag = this.flag?!this.flag:true;
+        let goods = [];
+        for(let key in currentData){
+          goods.push(currentData[key]);
+        }
+        if(this.flag){
+          $(this).text('完成');
+          $('#delBtn').show();
+          // 渲染编辑模板
+          // let html = template('cartTpl4Edit',goods);
+          // $('#cartInfo').html(html);
+          renderCommon('cartTpl4Edit');
+        }else{
+          $(this).text('编辑');
+          $('#delBtn').hide();
+          // 渲染展示模板
+          // let html = template('cartTpl',goods);
+          // $('#cartInfo').html(html);
+          renderCommon('cartTpl');
+        }
+      })
+      resolve();
+    })
+  }
   
-
-  $(document).on("pageInit", function(e, pageId, $page) {
-    loadCartData()
+  // 渲染模板通用方法
+  function renderCommon(tplId){
+    return loadCartData(tplId)
       .then(renderCartInfo)
       .then(calcMoney)
       .then(controlProductNum)
       .then(updateCart)
-      .catch(function(){
-        $.toast('服务器错误')
+      .catch(function(e){
+        $.toast(e)
       })
+  }
+
+  $(document).on("pageInit", function(e, pageId, $page) {
+    renderCommon('cartTpl')
+      .then(deleteCart);
   })
   $.init();
 });
