@@ -96,6 +96,8 @@ $(function(){
         .then(function(data){
           if(data.meta.status == 200){
             $.toast(data.meta.msg);
+            // 跳转到登录页
+            location.href = '/login.html';
           }
         })
         .catch(function(errInfo){

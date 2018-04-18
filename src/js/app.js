@@ -36,3 +36,51 @@ axios.interceptors.response.use(function (response) {
     // Do something with response error
     return Promise.reject(error);
   });
+
+
+// axios.get(url,{
+//   params: {
+//     info: 'nihao'
+//   }
+// })
+
+// 发送请求之前设置一些信息
+axios.interceptors.request.use(function (config) {
+    // 设置请求头，可以用于携带token
+    let info = localStorage.getItem('userInfo');
+    let token = info && JSON.parse(info).token;
+    config.headers.Authorization = token;
+    // console.log(config)
+    // url地址添加时间戳，防止缓存
+    if(config.params){
+        config.params.t = new Date().getTime();
+    }else {
+        config.params={
+            t:new Date().getTime()
+        };
+    }
+
+    return config;
+  }, function (error) {
+    return Promise.reject(error);
+  });
+
+// 没有登录的情况下直接跳转到登录页
+$(document).on("pageInit", function(e, pageId, $page) {
+  
+  $('.bar-tab').on('click','.tab-item',function(e){
+    let userInfo = localStorage.getItem('userInfo');
+    if(!userInfo && (this.href.indexOf('me') != -1 || this.href.indexOf('cart') != -1)){
+      // 没有登录,并且跳转地址是 me.html 或者 cart.html才做验证
+      location.href = '/login.html';
+      e.preventDefault();
+    }
+    // jQuery的事件函数中的return false既可以阻止默认行为，也可以阻止冒泡
+    // 原生js中的事件函数return false只能阻止默认行为，不能阻止冒泡
+    // return false;
+    // e.preventDefault();// 阻止默认行为
+    // e.stopPropagation();// 阻止冒泡
+  })
+});
+// 必须显示的调用该方法，从而触发pageInit事件
+$.init();

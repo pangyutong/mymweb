@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>购物车</title>
+  @@include('./common/meta.html') @@include('./common/style.html')
+  <link rel="stylesheet" type="text/css" href="css/cart.css">
+</head>
+
+<body>
+  <div class="page-group">
+    <div class="page page-current">
+      <!-- 菜单栏 -->
+      @@include('./common/menubar.html', { "cart": "active" })
+      <header class="bar bar-nav">
+        <h1 class="title">购物车</h1>
+        <button id="editBtn" class="button button-nav pull-right">编辑</button>
+        <button id="delBtn" class="button button-nav pull-left">删除</button>
+      </header>
+      <div class="content" id="content">
+        <div class="content-block-title">配送地址</div>
+        <div class="list-block media-list">
+          <ul>
+            <li>
+              <div class="item-content item-link">
+                <div class="item-media"><i class="icon iconfont icon-address"></i></div>
+                <div class="item-inner">
+                  <div class="item-title-row">
+                    <div class="item-title">默认地址</div>
+                  </div>
+                  <div class="item-text" id="address">上海市浦东新区航都路18号</div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="content-block-title">订单</div>
+        <div class="list-block media-list" id="orderRow">
+          <ul>
+            <li>
+              <div class="item-content item-link">
+                <div class="item-inner">
+                  <div class="item-title-row">
+                    <div class="item-title" id="totalPrice">总价：¥6897</div>
+                    <div class="item-after">生成订单</div>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="content-block-title">商品列表</div>
+        <div class="list-block media-list" id="cartInfo"></div>
+      </div>
+    </div>
+  </div>
+  <script type="text/template" id="cartTpl">
+    <ul>
+      {{each $data}}
+        <li>
+          <label class="item-content">
+            <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
+            <div class="item-media">
+              <img src="{{$value.goods_small_logo}}" style="margin-left:0.5rem;width: 4rem;">
+            </div>
+            <div class="item-inner">
+              <div class="item-text">{{$value.goods_name}}</div>
+              <div class="item-title-row">
+                <div class="item-title">¥{{$value.goods_price}}</div>
+                <div class="item-after numbox" data="17928">
+                  <em class="numbox-minus">-</em>
+                  <input class="numbox-input" type="number" value="{{$value.amount}}">
+                  <em class="numbox-plus">+</em>
+                </div>
+              </div>
+            </div>
+          </label>
+        </li>
+      {{/each}}
+    </ul>
+  </script>
+  @@include('./common/script.html')
+  <script type="text/javascript" src="js/cart.js"></script>
+</body>
+
+</html>
