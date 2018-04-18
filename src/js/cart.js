@@ -35,7 +35,7 @@ $(function(){
         total += item.goods_price * item.amount;
       })
       $('#totalPrice').html('总价：￥' + total);
-      resolve();
+      resolve(total);
     })
   }
   // 控制商品数量
@@ -173,6 +173,39 @@ $(function(){
       resolve();
     })
   }
+
+  // 生成订单
+  function genenateOrder(total){
+    return new Promise(function(resolve,reject){
+      $('#genOrderBtn').on('click',function(){
+        // 处理订单参数
+        let params = {};
+        params.order_price = total;
+        params.consignee_addr = $('#address').text();
+        let arr = [];
+        for(let key in currentData){
+          // 得到一个商品的数据信息
+          let item = currentData[key];
+          // 把每一件商品的数据放到数组里面
+          arr.push({
+            goods_id: item.goods_id,
+            goods_number: item.goods_number,
+            goods_price: item.goods_price
+          });
+        }
+        params.goods = arr;
+        // 生成订单
+        axios.post('/my/orders/create', params)
+          .then(function(data){
+            // if(data.meta.status === 200) {
+              // 创建订单成功
+              location.href = '/order.html?type=1';
+            // }
+          })
+      })
+      resolve();
+    })
+  }
   
   // 渲染模板通用方法
   function renderCommon(tplId){
@@ -188,7 +221,14 @@ $(function(){
 
   $(document).on("pageInit", function(e, pageId, $page) {
     renderCommon('cartTpl')
-      .then(deleteCart);
+      .then(deleteCart)
+      .then(function(){
+        let arr = [];
+        for(let key in currentData){
+          arr.push(currentData[key]);
+        }
+        calcMoney(arr).then(genenateOrder);
+      })
   })
   $.init();
 });
