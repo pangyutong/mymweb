@@ -1,6 +1,8 @@
 $(function(){
   // 设置验证码延时时间
   let delayTime = 60;
+  // 控制验证码按钮状态
+  let codeFlag = false;
 
   // 表单验证
   function checkForm(){
@@ -43,6 +45,7 @@ $(function(){
       mobile: mobile
     })
   }
+  
   // 处理验证码按钮的状态
   function handleCodeState(){
     delayTime--;
@@ -52,6 +55,10 @@ $(function(){
       setTimeout(handleCodeState,1000);
     }else{
       $('#codeButton').removeClass('button-fill').removeClass('disabled').removeAttr('disabled').text('重新发送验证码');
+      // 状态位要重置
+      codeFlag = false;
+      // 时间也要重置
+      delayTime = 60;
     }
   }
 
@@ -63,12 +70,16 @@ $(function(){
   $(document).on("pageInit", function(e, pageId, $page) {
     // 绑定验证码单击事件
     $('#codeButton').on('click',function(){
+      if(codeFlag) {
+        return;
+      }
       let mobile = $('#mobile').val();
       let reg = /^\d{11}$/;
       if(!reg.test(mobile)){
         $.toast('手机号格式错误');
         return;
       }
+      codeFlag = true;
       // 处理验证码按钮记时效果
       handleCodeState();
       // 调用验证码生成接口

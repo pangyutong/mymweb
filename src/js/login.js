@@ -89,7 +89,7 @@ $(function() {
   $(document).on("pageInit", function(e, pageId, $page) {
     // 从本地缓存中取出用户信息，显示到输入框中
     let info = localStorage.getItem('userInfo');
-    let uname = JSON.parse(info).username;
+    let uname = info && JSON.parse(info).username;
     $('#mobile').val(uname);
   });
   // 必须显示的调用该方法，从而触发pageInit事件

@@ -41,7 +41,7 @@ $(function(){
   }
 
   // 下拉刷新
-  $(document).on('refresh', '.pull-to-refresh-`', function(e) {
+  $(document).on('refresh', '.pull-to-refresh-content', function(e) {
     // 下拉后应该重新调用接口获取数据渲染模板
     refreshPage();
   });
@@ -85,6 +85,6 @@ $(function(){
   $(document).on("pageInit", function(e, pageId, $page) {
     // 页面第一次加载，初始化列表
     refreshPage();
-  });
+  })
   $.init();
 });

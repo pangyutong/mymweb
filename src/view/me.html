@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>个人中心</title>
+  @@include('./common/meta.html') @@include('./common/style.html')
+</head>
+
+<body>
+  <div class="page-group">
+    <div class="page page-current">
+      <header class="bar bar-nav">
+        <a class="button button-link button-nav pull-left" href="javascript:history.go(-1)" data-transition="slide-out">
+          <span class="icon icon-left"></span>
+        </a>
+        <h1 class="title">个人中心</h1>
+      </header>
+      @@include('./common/menubar.html', { "me": "active" })
+      <div class="content" id="content">
+        <div class="content native-scroll">
+          <div class="card">
+            <div class="card-content">
+              <div class="list-block media-list">
+                <ul>
+                  <li class="item-content">
+                    <div class="item-media"><img id="user_avatar_icon" style="border-radius:50%" src="http://47.96.21.88:8083/imgs/person.png" width="44"></div>
+                    <div class="item-inner">
+                      <div class="item-title-row">
+                        <div id="user_name" class="item-title">13730043121</div>
+                      </div>
+                      <div id="user_email" class="item-subtitle">afdsasdf@qq.com</div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header">订单管理</div>
+            <div class="card-content">
+              <div class="card-content-inner">
+                <div class="row">
+                  <div class="col-25"><a class="external" style="height:100%;vertical-align:middle;text-align:center;border-top:1px solid #e1e1e1" href="/order.html?type=1"><span style="display:block" class="icon iconfont icon-me-wait-pay"></span> <span style="display:block">待付款</span></a></div>
+                  <div class="col-25"><a class="external" style="height:100%;vertical-align:middle;text-align:center;border-top:1px solid #e1e1e1" href="/order.html?type=2"><span style="display:block" class="icon iconfont icon-me-wait-receive"></span> <span style="display:block">待收货</span></a></div>
+                  <div class="col-25"><a class="external" style="height:100%;vertical-align:middle;text-align:center;border-top:1px solid #e1e1e1" href="/order.html?type=3"><span style="display:block" class="icon iconfont icon-me-take-back"></span> <span style="display:block">退款/售后</span></a></div>
+                  <div class="col-25"><a style="height:100%;vertical-align:middle;text-align:center;border-top:1px solid #e1e1e1" href="/order.html?type=4" class="external"><span style="display:block" class="icon iconfont icon-me-all-orders"></span> <span style="display:block">全部订单</span></a></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-content">
+              <div class="list-block">
+                <ul>
+                  <li class="item-content item-link">
+                    <div class="item-inner">
+                      <div class="item-title">修改登录/密码</div>
+                    </div>
+                  </li>
+                  <li class="item-content item-link">
+                    <div class="item-inner">
+                      <div class="item-title">支付密码管理</div>
+                    </div>
+                  </li>
+                  <li class="item-content item-link">
+                    <div class="item-inner">
+                      <div class="item-title">收货地址管理</div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-content">
+              <div class="list-block">
+                <ul>
+                  <li class="item-content">
+                    <div class="item-inner">
+                      <div class="item-title">联系客服</div>
+                      <div class="item-after">4000-xxx-xxx-xxxx</div>
+                    </div>
+                  </li>
+                  <li class="item-content item-link">
+                    <div class="item-inner">
+                      <div class="item-title">意见反馈</div>
+                    </div>
+                  </li>
+                  <li class="item-content item-link">
+                    <div class="item-inner">
+                      <div class="item-title">关于我们</div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="content-block"><a href="javascript:;" id="logoutBtn" class="button button-big button-fill button-danger">退出登录</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  @@include('./common/script.html')
+  <script type="text/javascript" src="js/me.js"></script>
+</body>
+
+</html>
